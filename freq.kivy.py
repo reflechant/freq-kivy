@@ -56,16 +56,16 @@ class MainApp(App):
 
 
     def play(self):
-        pf = [f.freq for f in self.freqs]
+        fv = [(f.freq, f.volume) for f in self.freqs]
         sf = self.sample_freq
         n = len(self.freqs)
         data = []
 
         for i in range(10000):
             x = 0
-            for f in pf:
+            for f in fv:
                 #x += int(sin(radians(i * (f.freq) / (self.sample_freq / 360))) * 32767)
-                x += int(sin(radians(i * (f) / (sf / 360))) * 32767)
+                x += int(sin(radians(i * f[0] / (sf / 360))) * 32767 * f[1])
             x = int(x / n)
             data.append( st.pack("<h", x) )
             #i = 0 if i == 359 else i + 1
@@ -77,7 +77,6 @@ class MainApp(App):
                               rate=self.sample_freq,
                               output=True)
 
-        print(data)
         for d in data:
             s.write(d)
         s.close()

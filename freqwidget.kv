@@ -1,17 +1,40 @@
 BoxLayout:
-    orientation: 'vertical'
+    orientation: 'horizontal'
     freq: 440
-    #Label:
-    #    text: str(root.freq)
-    TextInput:
-        text: str(root.freq)
-        on_text: root.freq = int(self.text)
-    Slider:
-        id: freq_sl
-        orientation: 'vertical'
-        min: 20
-        max: 20000
-        step: 1
-        value: root.freq
-        on_value: root.freq = int(self.value)
+    volume: 1
 
+    BoxLayout:
+        orientation: 'vertical'
+        TextInput:
+            size_hint: (None, None)
+            size: (55, 30)
+            text: str(root.freq)
+            on_text: root.freq = int(self.text)
+        Slider:
+            id: freq_sl
+            orientation: 'vertical'
+            size_hint: (None, 1)
+            size: (30, 300)
+            min: 20
+            max: 20000
+            step: 1
+            value: root.freq
+            on_value: root.freq = int(self.value)
+
+    BoxLayout:
+        orientation: 'vertical'
+        TextInput:
+            size_hint: (None, None)
+            size: (55, 30)
+            text: str(root.volume)
+            on_text: root.volume = float(self.text)
+        Slider:
+            id: vol_sl
+            orientation: 'vertical'
+            size_hint: (None, 1)
+            size: (30, 300)
+            min: 0
+            max: 1
+            step: 0.01
+            value: root.volume
+            on_value: root.volume = float(self.value)
