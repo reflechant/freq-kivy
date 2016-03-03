@@ -26,7 +26,7 @@ class MainFrame(BoxLayout):
 
 
 class MainApp(App):
-    stop = threading.Event()
+    #stop = threading.Event()
     sample_freq = 44100
     freqs = []
 
@@ -41,40 +41,48 @@ class MainApp(App):
 
 
     def start_play(self, btn):
-
-        if btn.text == "остановить":
+        '''if btn.text == "остановить":
             print "начинаем играть"
             btn.text = "играть"
-            threading.Thread(target=self.play).start()
+            #self.thread = threading.Thread(target=self.play)
+            #self.thread.start()
         else:
             print "останавливаем"
             btn.text = "остановить"
-            self.stop.set()
+            #self.stop.set()
+        '''
+        self.play()
+
 
 
     def play(self):
+        pf = [f.freq for f in self.freqs]
+        sf = self.sample_freq
+        n = len(self.freqs)
+        data = []
+
+        for i in range(10000):
+            x = 0
+            for f in pf:
+                #x += int(sin(radians(i * (f.freq) / (self.sample_freq / 360))) * 32767)
+                x += int(sin(radians(i * (f) / (sf / 360))) * 32767)
+            x = int(x / n)
+            data.append( st.pack("<h", x) )
+            #i = 0 if i == 359 else i + 1
+            # x = randint(0,65535) # white noise
+
+
         s = pa.PyAudio().open(format=pa.paInt16,
                               channels=1,
                               rate=self.sample_freq,
                               output=True)
 
-        #i=0
-        #while not self.stop.is_set():
-        for i in xrange(10000):
-            x = 0
-
-            for f in self.freqs:
-                x += int(sin(radians(i * (f.freq) / (self.sample_freq / 360))) * 32767)
-            x = int(x / len(self.freqs))
-            #i = 0 if i == 359 else i + 1
-            # x = randint(0,65535) # white noise
-            s.write(st.pack("<h", x))
-
+        print(data)
+        for d in data:
+            s.write(d)
         s.close()
         pa.PyAudio().terminate()
 
 
 if __name__ == '__main__':
-    thread = threading.Thread(target=MainApp.play)
-    thread.start()
     MainApp().run()
