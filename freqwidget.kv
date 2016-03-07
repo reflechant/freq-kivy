@@ -1,19 +1,28 @@
-BoxLayout:
-    orientation: 'vertical'
+#BoxLayout:
+FloatLayout:
+	size: (55, 360)
+    #orientation: 'vertical'
     freq: 440
     volume: 1
 
     TextInput:
         size_hint: (None, None)
         size: (55, 30)
-        text: str(root.volume)
+        pos: (0,0)
+		#pos_hint: {'x': 0, 'y': 0}
+
+		text: str(root.volume)
         on_text: root.volume = float(self.text)
     Slider:
         id: vol_sl
         orientation: 'vertical'
-        size_hint: (None, 1)
+        #size_hint: (None, 1)
+        size_hint: (None, None)
         size: (30, 300)
-        min: 0
+        pos: (0,30)
+		#pos_hint: {'x': 0, 'y': 0}
+        
+		min: 0
         max: 1
         step: 0.01
         value: root.volume
@@ -22,5 +31,8 @@ BoxLayout:
 	TextInput:
         size_hint: (None, None)
         size: (55, 30)
-        text: str(root.freq)
+        pos: (0,330)
+		#pos_hint: {'x': 1, 'y': 1}
+        
+		text: str(root.freq)
         on_text: root.freq = int(self.text)
