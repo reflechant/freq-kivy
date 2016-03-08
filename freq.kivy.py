@@ -28,6 +28,7 @@ class MainFrame(BoxLayout):
 class MainApp(App):
     #stop = threading.Event()
     sample_freq = 44100
+    duration = 1.0
     freqs = []
 
     def build(self):
@@ -56,12 +57,13 @@ class MainApp(App):
 
 
     def play(self):
+        if not self.freqs: return
         fv = [(f.freq, f.volume) for f in self.freqs]
         sf = self.sample_freq
         n = len(self.freqs)
         data = []
 
-        for i in range(10000):
+        for i in range(int( self.duration * 44100 )):
             x = 0
             for f in fv:
                 #x += int(sin(radians(i * (f.freq) / (self.sample_freq / 360))) * 32767)
