@@ -24,3 +24,9 @@ BoxLayout:
         size: (55, 30)
         text: str(root.freq)
         on_text: root.freq = int(self.text)
+
+    Button:
+        size_hint: (None, None)
+        size: (55, 30)
+        text: 'x'
+        on_press: app.rm_freq(root)

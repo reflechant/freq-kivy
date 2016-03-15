@@ -40,6 +40,16 @@ class MainApp(App):
         self.freqs.append(f)
         w.add_widget(f)
 
+    def rm_freq(self,w):
+        self.freqs.remove(w)
+        w.parent.remove_widget(w)
+
+    def save(self):
+        pass
+
+    def load(self):
+        pass
+
 
     def start_play(self, btn):
         '''if btn.text == "остановить":
