@@ -6,11 +6,11 @@
         Button:
             id: play
             text: 'играть'
-            on_press: app.start_play(self)
+            on_release: app.start_play(self)
         Button:
             id: add
             text: 'добавить частоту'
-            on_press: app.add_freq(frcon)
+            on_release: app.add_freq(frcon)
         TextInput:
             id: duration
             size_hint: (None, None)
@@ -21,6 +21,11 @@
             text: "секунд"
             size_hint: (None, None)
             size: (60, 30)
+
+        Button:
+            id: openFileDialog
+            text: 'Открыть/Сохранить'
+            on_release: app.openFileDialog(root)
 
     BoxLayout:
         id: frcon

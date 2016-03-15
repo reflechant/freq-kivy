@@ -5,10 +5,11 @@ import struct as st
 from math import sin, cos, radians
 from random import randint
 import pyaudio as pa
+import os
 
 
 from kivy.app import App
-
+from kivy.properties import ObjectProperty
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.boxlayout import BoxLayout
@@ -16,6 +17,7 @@ from kivy.uix.slider import Slider
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.scatterlayout import ScatterLayout
 from kivy.uix.button import Button
+from kivy.uix.filechooser import FileChooserIconView
 
 from kivy.clock import Clock, mainthread
 from kivy.lang import Builder
@@ -31,6 +33,8 @@ class MainApp(App):
     duration = 1.0
     freqs = []
 
+    frcon = ObjectProperty(None)
+
     def build(self):
         return MainFrame()
 
@@ -44,24 +48,27 @@ class MainApp(App):
         self.freqs.remove(w)
         w.parent.remove_widget(w)
 
-    def save(self):
-        pass
+    def openFileDialog(self, w):
+        f = Builder.load_file('filedialog.kv')
+        w.add_widget(f)
 
-    def load(self):
-        pass
+
+    def save(self, path, filename):
+        with open(os.path.join(path, filename), 'w') as stream:
+            for f in self.freqs:
+                stream.write(str(f.freq) +' '+ str(f.volume) + '\n')
+
+    def load(self, path, filename):
+        with open(os.path.join(path, filename[0])) as stream:
+            data = stream.readline().split()
+            f = Builder.load_file('freqwidget.kv')
+            f.freq = int(data[0])
+            f.volume = float(data[1])
+            self.freqs.append(f)
+            frcon.add_widget(f)
 
 
     def start_play(self, btn):
-        '''if btn.text == "остановить":
-            print "начинаем играть"
-            btn.text = "играть"
-            #self.thread = threading.Thread(target=self.play)
-            #self.thread.start()
-        else:
-            print "останавливаем"
-            btn.text = "остановить"
-            #self.stop.set()
-        '''
         self.play()
 
 

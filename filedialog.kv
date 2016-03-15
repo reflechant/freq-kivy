@@ -1,0 +1,30 @@
+BoxLayout:
+    #size: root.size
+    #pos: root.pos
+    orientation: "vertical"
+
+    FileChooserIconView:
+        id: filechooser
+        on_selection: text_input.text =  self.selection and self.selection[0] or ''
+
+    TextInput:
+        id: text_input
+        size_hint_y: None
+        height: 30
+        multiline: False
+
+    BoxLayout:
+        size_hint_y: None
+        height: 30
+
+        Button:
+            text: "Отмена"
+            on_release: root.parent.remove_widget(root)
+
+        Button:
+            text: "Открыть"
+            on_release: app.load( filechooser.path, filechooser.selection ); root.parent.remove_widget(root)
+
+        Button:
+            text: "Сохранить"
+            on_release: app.save( filechooser.path, text_input.text ); root.parent.remove_widget(root)
