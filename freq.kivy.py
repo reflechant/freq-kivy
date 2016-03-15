@@ -23,8 +23,9 @@ from kivy.clock import Clock, mainthread
 from kivy.lang import Builder
 
 
-class MainFrame(BoxLayout):
-    pass
+#class MainFrame(BoxLayout):
+    #frcon = ObjectProperty(None)
+    #pass
 
 
 class MainApp(App):
@@ -33,10 +34,12 @@ class MainApp(App):
     duration = 1.0
     freqs = []
 
-    frcon = ObjectProperty(None)
+    #frcon = ObjectProperty(None)
 
-    def build(self):
-        return MainFrame()
+    #def build(self):
+        #self.mainframe = MainFrame()
+        #return self.mainframe
+    #    return MainFrame()
 
 
     def add_freq(self,w):
@@ -59,13 +62,18 @@ class MainApp(App):
                 stream.write(str(f.freq) +' '+ str(f.volume) + '\n')
 
     def load(self, path, filename):
-        with open(os.path.join(path, filename[0])) as stream:
-            data = stream.readline().split()
-            f = Builder.load_file('freqwidget.kv')
-            f.freq = int(data[0])
-            f.volume = float(data[1])
-            self.freqs.append(f)
-            frcon.add_widget(f)
+        box = self.root.ids.frcon
+        box.clear_widgets()
+        #with open(os.path.join(path, filename[0])) as stream:
+            #while True:
+        file = open(os.path.join(path, filename[0]))
+        for data in file.readlines():
+                #data = stream.readline().split()
+                f = Builder.load_file('freqwidget.kv')
+                f.freq = int(data[0])
+                f.volume = float(data[1])
+                self.freqs.append(f)
+                box.add_widget(f)
 
 
     def start_play(self, btn):
