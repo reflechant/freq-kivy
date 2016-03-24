@@ -23,24 +23,10 @@ from kivy.clock import Clock, mainthread
 from kivy.lang import Builder
 
 
-#class MainFrame(BoxLayout):
-    #frcon = ObjectProperty(None)
-    #pass
-
-
 class MainApp(App):
-    #stop = threading.Event()
     sample_freq = 44100
     duration = 1.0
     freqs = []
-
-    #frcon = ObjectProperty(None)
-
-    #def build(self):
-        #self.mainframe = MainFrame()
-        #return self.mainframe
-    #    return MainFrame()
-
 
     def add_freq(self,w):
         f = Builder.load_file('freqwidget.kv')
